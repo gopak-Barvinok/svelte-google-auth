@@ -7,7 +7,11 @@ module.exports = async({getNamedAccounts, deployments}) => {
     const {deployer} = await getNamedAccounts();
     // const chainId = network.config.chainId;
 
-    const args = []
+    const verifier = ""
+
+    const args = [
+        verifier
+    ]
 
     const googleAuth = await deploy("GoogleAuth", {
         from: deployer,
