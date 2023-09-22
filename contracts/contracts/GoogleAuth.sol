@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import {ZKAuthToken} from "./TokenERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 interface IVerifier {
     function verify(
@@ -14,9 +14,8 @@ interface IVerifier {
     ) external view returns (bool result);
 }
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract zkAuth is ERC20, Ownable {
+contract GoogleAuth is ERC20, Ownable {
 
     struct User {
         uint64 nonce;
@@ -52,15 +51,21 @@ contract zkAuth is ERC20, Ownable {
 
     function register(bytes32 login, uint64 statementId) external {
         require(users[login].verifier == address(0), "User already exists");
-        require(!usedStatements[statementId], "Statement already used");
-        _mint(msg.sender, mintAmount);
+
+        // Why this is here?
+        // require(!usedStatements[statementId], "Statement already used");
         users[login] = User(0, msg.sender, statementId, uint160(mintAmount));
         usedStatements[statementId] = true;
+        _mint(msg.sender, mintAmount);
         emit Registration(login, msg.sender, statementId);
     }
 
     function setMintAmount(uint256 _mintAmount) public onlyOwner {
         mintAmount = _mintAmount;
+    }
+
+    function getBalance(bytes32 login) public view returns(uint160) {
+        return users[login].balance;
     }
 
     function transfer(
