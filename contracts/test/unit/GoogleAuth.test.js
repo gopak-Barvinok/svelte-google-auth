@@ -9,8 +9,8 @@ const { assert, expect } = require('chai')
     let googleAuth
     const chainId = network.config.chainId
     const verifier = networkConfig[chainId].verifier
-    const login = stringToBytes32("ExampleLogin")
-    const statementId = 12
+    const login = stringToBytes32("ExampleLogin@gmail.com")
+    const statementId = 0
 
     beforeEach(async() => {
         deployer = (await getNamedAccounts()).deployer
