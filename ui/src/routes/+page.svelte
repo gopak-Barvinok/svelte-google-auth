@@ -98,27 +98,9 @@
     <div class="flex-none">
         <ul class="menu menu-horizontal px-1">
             <li>
-              <details>
-                <summary>
-                  {networks[0]}
-                </summary>
-                <ul class="p-2 bg-base-100">
-                    {#each networks as network}
-                  <li><button on:click={() => changeNetwork(1)}>{network}</button></li>
-                  <!-- <li><a>Link 2</a></li> -->
-                    {/each}
-                </ul>
-              </details>
-            </li>
-            <li>
-              <details>
-                <summary>
+                <dev>
                   Balance
-                </summary>
-                <ul class="p-2 bg-base-100">
-                  <li><button>Parameters</button></li>
-                </ul>
-              </details>
+                </dev>
             </li>
           <li>
             {#if !jwt}
