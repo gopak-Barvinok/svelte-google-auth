@@ -1,9 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import {ethers} from 'ethers'
+    // import { getBalanceFromContract } from './connectOrReg';
+    
 
     const clientId = import.meta.env.VITE_CLIENT_ID;
-    const RPC_SEPOLIA_URL= import.meta.env.VITE_RPC_SEPOLIA_URL;
     let jwt: string;
     let amount: string;
     let recipient: string;
@@ -11,31 +11,11 @@
     let errorCheckRecipient: boolean;
     let errorCheck: boolean;
     let sendClicked = false;
-    let loading = false;
+    let loadingTx = false;
+    let loadingReg = false;
 
     let email: string;
     let balance: number;
-
-    let networks = [
-        'Ethereum',
-        'Optimism'
-    ]
-
-    const provider = new ethers.JsonRpcProvider(RPC_SEPOLIA_URL);
-
-    const googleAuthAddress = "0xfC3aad02Faa9De0B78D0Ee3D17D2346C95C8E121";
-
-    const googleAuthAbi = [
-        "function getBalance(bytes32 login) public view returns(uint160)"
-    ];
-
-    const googleAuthContract = new ethers.Contract(googleAuthAddress, googleAuthAbi, provider)
-
-    function changeNetwork(index: number) {
-        const temp = networks[0];
-        networks[0] = networks[index];
-        networks[index] = temp
-    }
 
     async function sendTx() {
         sendClicked = true;
@@ -66,7 +46,10 @@
             const handleCredentialResponse = async (response) => {
                 jwt = response.credential
                 console.log('Encoded JWT ID token: ' + response.credential);
-
+                email = ""
+                // loadingReg = true;
+                // balance = await getBalanceFromContract(email);
+                // loadingReg = false;
             }
 
             // @ts-ignore
@@ -93,13 +76,14 @@
 
 <header class="navbar bg-base-100 bg-base-200">
     <div class="flex-1">
+        <!-- svelte-ignore a11y-missing-attribute -->
         <a class="btn btn-ghost normal-case text-xl">zkAuth</a>
     </div>
     <div class="flex-none">
         <ul class="menu menu-horizontal px-1">
             <li>
                 <dev>
-                  Balance
+                  Balance: {balance}
                 </dev>
             </li>
           <li>
@@ -134,12 +118,17 @@
                 </div>
                 {#if !jwt}
                     <button class="mb-5" id="signInDiv"/>
+                {:else if loadingReg}
+                    <button class="btn btn-neutral mb-5">
+                        <span class="loading loading-spinner"></span>
+                        loading
+                    </button>
                 {:else}
                     <div>
                         {#if !sendClicked}
                             <button class="btn btn-neutral mb-5" on:click={sendTx}>Send</button>
                         {:else}
-                            {#if loading}
+                            {#if loadingTx}
                                 <button class="btn btn-neutral mb-5">
                                     <span class="loading loading-spinner"></span>
                                     loading
