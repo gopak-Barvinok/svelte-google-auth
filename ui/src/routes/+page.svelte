@@ -119,20 +119,24 @@
                 {#if !jwt}
                     <button class="mb-5" id="signInDiv"/>
                 {:else if loadingReg}
+                <div>
                     <button class="btn btn-neutral mb-5">
                         <span class="loading loading-spinner"></span>
                         loading
                     </button>
+                </div>
                 {:else}
                     <div>
                         {#if !sendClicked}
                             <button class="btn btn-neutral mb-5" on:click={sendTx}>Send</button>
                         {:else}
                             {#if loadingTx}
-                                <button class="btn btn-neutral mb-5">
-                                    <span class="loading loading-spinner"></span>
-                                    loading
-                                </button>
+                                <div>
+                                    <button class="btn btn-neutral mb-5">
+                                        <span class="loading loading-spinner"></span>
+                                        loading
+                                    </button>
+                                </div>
                             {:else if errorCheck || errorCheckAmount || errorCheckRecipient}
                                 <button class="btn btn-error mb-5" on:click={sendTx}>Error</button>
                             {:else if !errorCheck}
