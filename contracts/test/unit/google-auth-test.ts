@@ -35,7 +35,7 @@ import { ethers, network } from 'hardhat';
         })
         it("Should be correct balanceOf contract's tokens", async () => {
             const { googleAuth } = await loadFixture(deployGoogleAuthFixture);
-            const googleAuthAddr = googleAuth.getAddress();
+            const googleAuthAddr = await googleAuth.getAddress();
             const googleAuthTx = await googleAuth.register(login, 0);
             await googleAuthTx.wait();
             expect(await googleAuth.balanceOf(googleAuthAddr)).to.equal(5);

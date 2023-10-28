@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
+    import Header from '$lib/Header.svelte';
     // import { getBalanceFromContract } from './connectOrReg';
     
 
@@ -74,28 +75,7 @@
     <script src="https://accounts.google.com/gsi/client"></script>
 </svelte:head>
 
-<header class="navbar bg-base-100 bg-base-200">
-    <div class="flex-1">
-        <!-- svelte-ignore a11y-missing-attribute -->
-        <a class="btn btn-ghost normal-case text-xl">zkAuth</a>
-    </div>
-    <div class="flex-none">
-        <ul class="menu menu-horizontal px-1">
-            <li>
-                <dev>
-                  Balance: {balance}
-                </dev>
-            </li>
-          <li>
-            {#if !jwt}
-                <div>Sign In</div>
-            {:else}
-                <div>{email}</div>
-            {/if}
-          </li>
-        </ul>
-      </div>
-</header>
+<Header jwt={jwt} balance={balance} email={email}/>
 <div class="hero min-h-screen bg-base-200">
     <div class="hero-content text-center">
       <div class="card-body max-w-md gap-2">
